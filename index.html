@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Game 10000</title>
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        .marquee {
+            position: fixed;
+            width: 100%;
+            background-color: #5A5A5A;
+            color: #FFF;
+            font-size: 45px;
+            padding: 10px;
+            text-align: center;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: transform 1s;
+        }
+        #topMarquee {
+            top: 0;
+            transform: translateY(-100%);
+        }
+        #bottomMarquee {
+            bottom: 0;
+            transform: translateY(100%);
+        }
+        .marquee span {
+            display: inline-block;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .marquee.show span {
+            opacity: 1;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        @keyframes marqueeReverse {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        #topMarquee span {
+            animation: marquee 6s linear forwards;
+        }
+        #bottomMarquee span {
+            animation: marqueeReverse 6s linear forwards;
+        }
+        .container-h2 {
+            position: relative;
+        }
+        .container-button {
+            position: absolute;
+            top: 30%; /* Position the button directly below the h1 */
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 10px; /* Adjust the space between the h1 and button */
+        }
+        body {
+            background-color: black;
+            color: white;
+            font-family: Verdana, Geneva, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+    margin: 0;
+    perspective: 500px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+.starw-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotateX(50deg); /* Keep the rotation */
+    transform-origin: center;
+    overflow: hidden;
+    padding: 0px; /* Adjust padding */
+}
+
+.starw-content {
+    width: 80%;
+    text-align: center;
+    overflow: hidden;
+    padding: 0px; /* Adjust padding */
+}
+        button{
+            font-family: Verdana, Geneva, sans-serif;
+            font-weight: bold;
+            font-size: 30px;
+        }
+        .dice-container { display: flex; justify-content: center; flex-wrap: wrap; }
+        .dice { margin: 8px; width: 50px; height: 50px; border: 2px solid #000; position: relative; border-color: #fff;
+        box-shadow: 
+        1px 1px 0 #c0c0c0, 
+        2px 2px 0 #a0a0a0, 
+        3px 3px 0 #808080, 
+        4px 4px 0 #606060, 
+        5px 5px 0 #404040, 
+        6px 6px 0 #202020;
+    }
+        .dot { width: 10px; height: 10px; background-color: white; border-radius: 50%; position: absolute;}
+        .dot1 { top: 20px; left: 20px; }
+        .dot2 { top: 10px; left: 10px; }
+        .dot3 { top: 10px; right: 10px; }
+        .dot4 { bottom: 10px; left: 10px; }
+        .dot5 { bottom: 10px; right: 10px; }
+        .dot6 { top: 20px; left: 10px; }
+        .dot7 { top: 20px; right: 10px; }
+        .dot8 { bottom: 20px; left: 10px; }
+        .dot9 { bottom: 20px; right: 10px; }
+        .score { 
+        font-size: 30px; 
+        margin-top: 20px; 
+        color:black;
+text-shadow: 
+    1px 1px 0 #606060, 
+    2px 2px 0 #808080, 
+    3px 3px 0 #a0a0a0, 
+    4px 4px 0 #c0c0c0;
+    }
+        .hold-container { display: flex; flex-direction: column; align-items: center; }
+        h2, table, tr, th, td, div {
+            padding: 0; 
+            margin: 0;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+        #roll-button {
+            background-color: #D3D3D3; /* Light grey background for button */
+            border: 4px solid #000; /* Black border */
+            color: black; /* Black text */
+            padding: 8px 8px;
+            text-align: center;
+            font-size: 15px;
+            box-shadow: 0 0 #777; /* Remove shadow */
+            border-radius: 12px;
+            position: relative;
+            transition: transform 1s, box-shadow 1s;
+            transform: translateY(5px); /* Start fully pressed down */       
+        }
+        #deposit-button1 {
+            visibility: hidden;
+        }
+        #deposit-button2 {
+            visibility: hidden;
+        }
+        input::placeholder {
+            color: white;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="topMarquee" class="marquee">
+        <span>B-B-B-BUSTED!</span>
+    </div>
+        <div class="starw-container">
+        <div class="starw-content">
+<table width="100%">
+    <tr>
+        <td colspan="2">
+            <div style="font-size: 50px;" class="container-h2">
+            DICE GAME
+            </div>
+            <div class="container-button">
+                <button id="gamereset-button" style="font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif; font-size: 40px; border: none; background-color: white; color: black; cursor: pointer; line-height: 1; transform: rotate(225deg)" onclick="resetGame()">
+                    ⟳
+                </button>
+            </div>
+        </td>
+    </tr>
+    <tr>
+    <td colspan="2"><div style="font-size: 30px;">10,000</div></td>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" placeholder="JULIE" style="background-color: black; color: white; border: none; outline: none; border-bottom: 0px solid #fff; font-size: 30px; font-family: Verdana, Geneva, sans-serif; font-weight: bold; text-align: center; box-sizing: border-box; width: 100%;">
+        </td>
+        <td>
+            <input type="text" placeholder="MAEVE" style="background-color: black; color: white; border: none; outline: none; border-bottom: 0px solid #fff; font-size: 30px; font-family: Verdana, Geneva, sans-serif; font-weight: bold; text-align: center; box-sizing: border-box; width: 100%;">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="score" id="player1-score">0</div>
+        </td>
+        <td>
+            <div class="score" id="player2-score">0</div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button id="deposit-button1" onclick="depositScore(1)">🡅</button>
+        </td>
+        <td>
+            <button id="deposit-button2" onclick="depositScore(2)">🡅</button>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div id="dice-container" class="dice-container"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="score" id="roll-score">ROLL SCORE: 0</div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <button id="roll-button" onclick="rollDice()">ROLL DICE</button>
+            <div>
+            <Br>
+            </div>
+        </td>
+    </tr>
+</table>
+    </div>
+    </div>
+    <div id="bottomMarquee" class="marquee">
+        <span>B-B-B-BUSTED!</span>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        let rollScore = 0;
+        let previousRollScore = 0;
+        let player1Score = 0;
+        let player2Score = 0;
+        let diceValues = [0, 0, 0, 0, 0, 0];
+
+        function showMarquees() {
+            const topMarquee = document.getElementById('topMarquee');
+            const bottomMarquee = document.getElementById('bottomMarquee');
+            const topSpan = topMarquee.querySelector('span');
+            const bottomSpan = bottomMarquee.querySelector('span');
+
+            topSpan.style.animation = 'none';
+            bottomSpan.style.animation = 'none';
+            topSpan.offsetHeight;
+            bottomSpan.offsetHeight;
+            topSpan.style.animation = '';
+            bottomSpan.style.animation = '';
+
+            topMarquee.style.transform = 'translateY(0)';
+            bottomMarquee.style.transform = 'translateY(0)';
+            setTimeout(function() {
+                topMarquee.classList.add('show');
+                bottomMarquee.classList.add('show');
+            }, 1000);
+
+            setTimeout(function() {
+                topMarquee.style.transform = 'translateY(-100%)';
+                        bottomMarquee.style.transform = 'translateY(100%)';
+                topMarquee.classList.remove('show');
+                bottomMarquee.classList.remove('show');
+            }, 5000);
+        }
+
+        function createDice() {
+            const diceContainer = document.getElementById('dice-container');
+            diceContainer.innerHTML = '';
+            for (let i = 0; i < 6; i++) {
+                const dice = document.createElement('div');
+                dice.className = 'dice';
+                dice.id = `dice${i}`;
+                dice.innerHTML = `<div class="dice-face" id="face${i}"></div>`;
+
+                const holdContainer = document.createElement('div');
+                holdContainer.className = 'hold-container';
+                holdContainer.innerHTML = `
+                    <input type="radio" id="hold${i}" name="hold${i}" onclick="showRollButton()">
+                    <label for="hold${i}"></label>
+                `;
+
+                const diceWrapper = document.createElement('div');
+                diceWrapper.appendChild(dice);
+                diceWrapper.appendChild(holdContainer);
+
+                diceContainer.appendChild(diceWrapper);
+            }
+
+            const radioButtons = document.querySelectorAll('[type="radio"]');
+            radioButtons.forEach(button => {
+                button.style.visibility = 'hidden';
+            });
+        }
+        
+        const button = document.getElementById('roll-button');
+        let up = true;
+
+        setInterval(() => {
+            if (up) {
+                button.style.transform = 'translateY(-3px)';
+                button.style.boxShadow = '0 8px #777';
+            } else {
+                button.style.transform = 'translateY(5px)';
+                button.style.boxShadow = '0 0 #777';
+            }
+            up = !up;
+        }, 2000); // Slower animation
+
+        function rollDice() {
+            previousRollScore = rollScore;
+            rollScore = 0;
+            let counts = [0, 0, 0, 0, 0, 0];
+
+            for (let i = 0; i < 6; i++) {
+                const hold = document.getElementById(`hold${i}`).checked;
+                const diceFace = document.getElementById(`face${i}`);
+                diceFace.innerHTML = '';
+
+                if (!hold) {
+                    const roll = Math.floor(Math.random() * 6) + 1;
+                    diceValues[i] = roll;
+                    counts[roll - 1]++;
+
+                    createDots(diceFace, roll);
+                } else {
+                    const heldValue = diceValues[i];
+                    counts[heldValue - 1]++;
+                    createDots(diceFace, heldValue);
+                }
+            }
+
+            for (let i = 0; i < counts.length; i++) {
+                if (counts[i] >= 3) {
+                    if (i === 0) {
+                        rollScore += 1000;
+                    } else {
+                        rollScore += (i + 1) * 100;
+                    }
+                    counts[i] -= 3;
+                }
+            }
+
+            if (counts[0] > 0) rollScore += counts[0] * 100;
+            if (counts[4] > 0) rollScore += counts[4] * 50;
+
+            document.getElementById('roll-score').innerText = `ROLL SCORE: ${rollScore}`;
+            document.getElementById('roll-button').style.visibility = 'hidden';
+
+            const radioButtons = document.querySelectorAll('[type="radio"]');
+            radioButtons.forEach(button => {
+                button.style.visibility = 'visible';
+            });
+
+            if (rollScore <= previousRollScore) {
+                turnOver();
+            }
+
+            const rollScoreThreshold = 350;
+            if (rollScore >= rollScoreThreshold) {
+                document.getElementById('deposit-button1').style.visibility = 'visible';
+                document.getElementById('deposit-button2').style.visibility = 'visible';
+            } else {
+                document.getElementById('deposit-button1').style.visibility = 'hidden';
+                document.getElementById('deposit-button2').style.visibility = 'hidden';
+            }
+        }
+
+        function createDots(diceFace, roll) {
+            switch (roll) {
+                case 1:
+                    createDot(diceFace, 'dot1');
+                    break;
+                case 2:
+                    createDot(diceFace, 'dot2');
+                    createDot(diceFace, 'dot5');
+                    break;
+                case 3:
+                    createDot(diceFace, 'dot2');
+                    createDot(diceFace, 'dot1');
+                    createDot(diceFace, 'dot5');
+                    break;
+                case 4:
+                    createDot(diceFace, 'dot2');
+                    createDot(diceFace, 'dot3');
+                    createDot(diceFace, 'dot4');
+                    createDot(diceFace, 'dot5');
+                    break;
+                case 5:
+                    createDot(diceFace, 'dot2');
+                    createDot(diceFace, 'dot3');
+                    createDot(diceFace, 'dot1');
+                    createDot(diceFace, 'dot4');
+                    createDot(diceFace, 'dot5');
+                    break;
+                case 6:
+                    createDot(diceFace, 'dot2');
+                    createDot(diceFace, 'dot3');
+                    createDot(diceFace, 'dot4');
+                    createDot(diceFace, 'dot5');
+                    createDot(diceFace, 'dot6');
+                    createDot(diceFace, 'dot7');
+                    break;
+            }
+        }
+
+        function createDot(dice, className) {
+            const dot = document.createElement('div');
+            dot.className = 'dot ' + className;
+            dice.appendChild(dot);
+        }
+
+        function depositScore(player) {
+            if (player === 1) {
+                player1Score += rollScore;
+                document.getElementById('player1-score').innerText = `${player1Score}`;
+            } else if (player === 2) {
+                player2Score += rollScore;
+                document.getElementById('player2-score').innerText = `${player2Score}`;
+            }
+            rollScore = 0;
+            document.getElementById('roll-score').innerText = `ROLL SCORE: ${rollScore}`;
+            document.getElementById('deposit-button1').style.visibility = 'hidden';
+            document.getElementById('deposit-button2').style.visibility = 'hidden';
+            document.getElementById('roll-button').style.visibility = 'visible';
+            resetHolds();
+
+            const radioButtons = document.querySelectorAll('[type="radio"]');
+            radioButtons.forEach(button => {
+                button.style.visibility = 'hidden';
+            });
+        }
+
+        function resetHolds() {
+            for (let i = 0; i < 6; i++) {
+                document.getElementById(`hold${i}`).checked = false;
+            }
+        }
+
+        function turnOver() {
+            rollScore = 0;
+            previousRollScore = 0;
+            document.getElementById('roll-score').innerText = `ROLL SCORE: ${rollScore}`;
+            showMarquees();
+            resetHolds();
+            createDice();
+            document.getElementById('roll-button').style.visibility = 'visible';
+        }
+
+        function showRollButton() {
+            document.getElementById('roll-button').style.visibility = 'visible';
+        }
+
+        createDice();
+        
+        function resetGame() {
+    rollScore = 0;
+    previousRollScore = 0;
+    player1Score = 0;
+    player2Score = 0;
+    diceValues = [0, 0, 0, 0, 0, 0];
+
+    document.getElementById('player1-score').innerText = '0';
+    document.getElementById('player2-score').innerText = '0';
+    document.getElementById('roll-score').innerText = 'ROLL SCORE: 0';
+    document.getElementById('deposit-button1').style.visibility = 'hidden';
+    document.getElementById('deposit-button2').style.visibility = 'hidden';
+    document.getElementById('roll-button').style.visibility = 'visible';
+
+    resetHolds();
+    createDice();
+}
+    </script>
+        <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('Service Worker registered with scope:', registration.scope);
+            }).catch(error => {
+                console.log('Service Worker registration failed:', error);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -240,7 +240,6 @@ text-shadow:
             const topSpan = topMarquee.querySelector('span');
             const bottomSpan = bottomMarquee.querySelector('span');
 
-            document.getElementById('roll-button').style.visibility = 'hidden';
             topSpan.style.animation = 'none';
             bottomSpan.style.animation = 'none';
             topSpan.offsetHeight;
@@ -251,6 +250,7 @@ text-shadow:
             topMarquee.style.transform = 'translateY(0)';
             bottomMarquee.style.transform = 'translateY(0)';
             setTimeout(function() {
+                document.getElementById('roll-button').style.visibility = 'hidden';
                 topMarquee.classList.add('show');
                 bottomMarquee.classList.add('show');
             }, 1000);
